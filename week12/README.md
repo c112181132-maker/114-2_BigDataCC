@@ -133,6 +133,10 @@ add the following content into .bashrc file.
 ```
 export PATH="$HOME/miniconda3/bin:$PATH"
 ```
+or 
+```
+export PATH=/home/u306/miniconda3/bin:$PATH
+```
 
 ## Validate the installation
 ```
