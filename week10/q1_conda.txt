@@ -1,1 +1,86 @@
+姓名：尤姵瑄
+學號：C112181132
 
+=== 任務 1：確認 Conda 版本 ===
+
+conda --version
+
+（貼上你的 conda --version 結果）
+
+conda info
+
+（貼上 conda info 結果，至少包含）
+active environment : base
+conda version : 26.1.1
+base environment : C:\Users\opopu\anaconda3
+
+==================================================
+
+=== 任務 2：建立新環境 ===
+
+conda create -n C112181132_w10 python=3.11 -y
+
+（貼上最後看到 done 的部分）
+
+conda env list
+
+（貼上結果）
+
+==================================================
+
+=== 任務 3：啟動環境並安裝套件 ===
+
+conda activate C112181132_w10
+
+(C112181132_w10) C:\Users\opopu>
+
+conda install pandas numpy matplotlib -y
+
+（貼上最後 done 的部分）
+
+conda list | findstr "pandas numpy matplotlib"
+
+（貼上結果）
+
+==================================================
+
+=== 任務 4：匯出環境設定檔 ===
+
+conda env export > week10/environment.yml
+
+type week10\environment.yml
+
+（貼上 environment.yml 全部內容）
+
+==================================================
+
+=== 任務 5：清理暫存 ===
+
+conda clean --all -y
+
+Will remove 626 (1.40 GB) tarball(s).
+Will remove 1 index cache(s).
+Will remove 26 (38.5 MB) package(s).
+
+==================================================
+
+=== 任務 6：觀念回答 ===
+
+Q1：為什麼不要直接在 base 環境安裝專案套件？這樣做有什麼壞處？
+
+A1：
+因為 base 是 Conda 的主要環境，如果所有專案都使用同一個 base 環境，容易造成套件版本衝突，也可能影響其他專案與 Conda 本身的正常運作，因此建議每個專案建立自己的虛擬環境。
+
+Q2：conda install 和 pip install 有什麼差異？什麼情況下會建議用 pip？
+
+A2：
+conda install 會同時管理套件及其相依性，適合安裝 Conda 提供的套件；pip install 則是從 PyPI 安裝 Python 套件。當 Conda 找不到需要的套件時，再使用 pip install 會比較適合。
+
+Q3：environment.yml 的用途是什麼？換電腦時要怎麼用它快速重建環境？
+
+A3：
+environment.yml 用來記錄環境中的 Python 版本與所有已安裝的套件。換電腦時，只要執行：
+
+conda env create -f environment.yml
+
+就可以快速建立相同的開發環境，不需要重新安裝所有套件。
