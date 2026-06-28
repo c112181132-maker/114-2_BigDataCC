@@ -1,0 +1,119 @@
+Q1：查詢船舶總數、平均噸位、最大噸位、最小噸位
+
+SQL：
+
+SELECT
+COUNT(*) AS total_ships,
+AVG(tonnage) AS avg_tonnage,
+MAX(tonnage) AS max_tonnage,
+MIN(tonnage) AS min_tonnage
+FROM ships;
+
+結果：
+
++-------------+-------------+-------------+-------------+
+| total_ships | avg_tonnage | max_tonnage | min_tonnage |
++-------------+-------------+-------------+-------------+
+| 5           | 146200.0000 | 221000      | 85000       |
++-------------+-------------+-------------+-------------+
+Q2：查詢噸位最大的前 3 艘船（使用 ORDER BY + LIMIT）
+
+SQL：
+
+SELECT *
+FROM ships
+ORDER BY tonnage DESC
+LIMIT 3;
+
+結果：
+
++----+-------------------+-----------+---------+--------------+
+| id | ship_name         | ship_type | tonnage | arrival_date |
++----+-------------------+-----------+---------+--------------+
+| 1  | Ever Given        | Container | 221000  | 2026-04-10   |
+| 5  | Kaohsiung Express | Container | 180000  | 2026-04-14   |
+| 2  | Yang Ming Wish    | Container | 150000  | 2026-04-11   |
++----+-------------------+-----------+---------+--------------+
+=== 任務 2：GROUP BY 分組統計 ===
+Q3：統計每種船型（ship_type）的船舶數量和平均噸位
+
+SQL：
+
+SELECT
+ship_type,
+COUNT(*) AS total,
+AVG(tonnage) AS avg_tonnage
+FROM ships
+GROUP BY ship_type;
+
+結果：
+
++-----------+-------+-------------+
+| ship_type | total | avg_tonnage |
++-----------+-------+-------------+
+| Container | 3     | 183666.6667 |
+| Bulk      | 1     | 85000.0000  |
+| Tanker    | 1     | 95000.0000  |
++-----------+-------+-------------+
+Q4：統計每種職位（rank）的船員人數和平均薪水
+
+SQL：
+
+SELECT
+`rank`,
+COUNT(*) AS total,
+AVG(salary) AS avg_salary
+FROM crew
+GROUP BY `rank`;
+
+結果：
+
++----------+-------+--------------+
+| rank     | total | avg_salary   |
++----------+-------+--------------+
+| Captain  | 2     | 87500.000000 |
+| Officer  | 2     | 61500.000000 |
+| Engineer | 2     | 56500.000000 |
+| Crew     | 1     | 42000.000000 |
++----------+-------+--------------+
+=== 任務 3：LEFT JOIN 多表查詢 ===
+Q5：查詢每位船員的姓名、職位、薪水，以及他所屬的船名
+
+SQL：
+
+SELECT
+crew.name,
+crew.`rank`,
+crew.salary,
+ships.ship_name
+FROM crew
+LEFT JOIN ships
+ON crew.ship_id = ships.id;
+
+結果：
+
++------------+----------+----------+-------------------+
+| name       | rank     | salary   | ship_name         |
++------------+----------+----------+-------------------+
+| John Smith | Captain  | 85000.00 | Ever Given        |
+| Mary Chen  | Officer  | 62000.00 | Ever Given        |
+| David Lee  | Engineer | 58000.00 | Yang Ming Wish    |
+| Kevin Wang | Crew     | 42000.00 | Yang Ming Wish    |
+| Amy Lin    | Officer  | 61000.00 | Formosa 1         |
+| Tom Wu     | Engineer | 55000.00 | Ocean Star        |
+| Chris Liu  | Captain  | 90000.00 | Kaohsiung Express |
++------------+----------+----------+-------------------+
+Q6：找出沒有任何船員的船舶
+
+SQL：
+
+SELECT
+ships.ship_name
+FROM ships
+LEFT JOIN crew
+ON ships.id = crew.ship_id
+WHERE crew.id IS NULL;
+
+結果：
+
+Empty set (0.00 sec)
