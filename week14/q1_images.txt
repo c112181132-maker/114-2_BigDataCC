@@ -1,1 +1,72 @@
+姓名：尤姵瑄
+學號：C112181132
 
+=== 任務 1：確認 Docker 環境 ===
+
+執行：
+docker version
+
+Client Version:
+29.5.3
+
+Server Engine Version:
+29.5.3
+
+=== 任務 2：拉取映像檔 ===
+
+執行：
+docker pull ubuntu:22.04
+
+ubuntu:22.04：
+Status: Downloaded newer image for ubuntu:22.04
+
+執行：
+docker pull python:3.11-slim
+
+python:3.11-slim：
+Status: Downloaded newer image for python:3.11-slim
+
+執行：
+docker pull nginx
+
+nginx：
+Status: Downloaded newer image for nginx
+
+=== 任務 3：列出映像檔 ===
+
+執行：
+docker images
+
+                                                       i Info →   U  In Use
+IMAGE              ID             DISK USAGE   CONTENT SIZE   EXTRA
+nginx:alpine       54f2a904c251       93.3MB         26.9MB
+python:3.11-slim   cdbd05fb6f45        188MB         47.7MB
+ubuntu:22.04       4f838adc7181        119MB         31.7MB
+
+=== 任務 4：刪除映像檔 ===
+
+執行：
+docker rmi ubuntu:22.04
+
+Untagged: ubuntu:22.04
+Deleted: sha256:4f838adc7181d9039ac795a7d0aba05a9bd9ecd480d294483169c5def983b64d
+
+再次執行：
+docker images
+
+                                                       i Info →   U  In Use
+IMAGE              ID             DISK USAGE   CONTENT SIZE   EXTRA
+nginx:alpine       54f2a904c251       93.3MB         26.9MB
+python:3.11-slim   cdbd05fb6f45        188MB         47.7MB
+
+=== 觀念題 ===
+
+Q1：映像檔（Image）和容器（Container）有什麼不同？
+
+A1：
+映像檔（Image）是建立容器的模板，包含程式、作業系統、函式庫與執行環境；容器（Container）則是由映像檔建立出的執行實體，可以啟動、停止、修改及刪除。
+
+Q2：為什麼刪除映像檔前需要先刪除使用該映像檔的容器？
+
+A2：
+因為容器仍需要依賴映像檔來執行，如果映像檔仍被容器使用，Docker 會禁止刪除。必須先停止並刪除使用該映像檔的容器，才能安全刪除映像檔。
