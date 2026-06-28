@@ -1,1 +1,113 @@
+姓名：尤姵瑄
+學號：C112181132
 
+=== 任務 1：啟動 nginx 容器 ===
+
+執行：
+
+docker run -d --name my-nginx -p 8080:80 nginx:alpine
+
+Container ID：
+
+12c5b4d985d873ec60143b304ec03802aa5e39cf336c2696eaf3cecfdacf2c31
+
+=== 任務 2：查看容器狀態 ===
+
+執行：
+
+docker ps
+
+結果：
+
+CONTAINER ID   IMAGE          COMMAND                   CREATED          STATUS         PORTS                                     NAMES
+12c5b4d985d8   nginx:alpine   "/docker-entrypoint.…"   11 seconds ago   Up 9 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-nginx
+
+=== 任務 3：測試 nginx 服務 ===
+
+執行：
+
+curl http://localhost:8080
+
+結果（節錄）：
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+...
+<h1>Welcome to nginx!</h1>
+...
+</html>
+
+=== 任務 4：進入容器 ===
+
+執行：
+
+docker exec -it my-nginx sh
+hostname
+12c5b4d985d8
+ls /etc/nginx
+conf.d
+fastcgi.conf
+fastcgi_params
+mime.types
+modules
+nginx.conf
+scgi_params
+uwsgi_params
+cat /etc/nginx/nginx.conf（前 10 行）
+user nginx;
+worker_processes auto;
+
+error_log /var/log/nginx/error.log notice;
+pid /run/nginx.pid;
+
+events {
+    worker_connections 1024;
+}
+
+輸入：
+
+exit
+
+離開容器。
+
+=== 任務 5：查看容器 log ===
+
+執行：
+
+docker logs my-nginx
+
+最後 5 行：
+
+2026/06/28 11:10:02 [notice] 1#1: start worker process 34
+2026/06/28 11:10:02 [notice] 1#1: start worker process 35
+2026/06/28 11:10:02 [notice] 1#1: start worker process 36
+2026/06/28 11:10:02 [notice] 1#1: start worker process 37
+172.17.0.1 - - [28/Jun/2026:11:10:19 +0000] "GET / HTTP/1.1" 200 896 "-" "curl/8.19.0" "-"
+
+=== 任務 6：停止並刪除容器 ===
+
+執行：
+
+docker stop my-nginx
+docker rm my-nginx
+docker ps -a
+
+結果：
+
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS   PORTS   NAMES
+
+（表示 my-nginx 已成功刪除。）
+
+=== 觀念題 ===
+
+Q1：docker run -d 和 docker run -it 的使用時機有什麼不同？
+
+A1：
+docker run -d 會讓容器在背景執行，適合用來執行 Web Server、資料庫等長時間運作的服務。docker run -it 則會進入容器的互動式終端機，方便執行指令、測試程式或除錯。
+
+Q2：-p 8080:80 的意思是什麼？如果把主機的 8080 改成 9090，應用程式的行為會有什麼不同？
+
+A2：
+-p 8080:80 表示將主機的 8080 埠對應到容器內的 80 埠，因此可透過 http://localhost:8080 存取服務。如果改成 -p 9090:80，容器內的 nginx 仍然使用 80 埠，但主機必須改用 http://localhost:9090 才能存取。
