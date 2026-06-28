@@ -1,1 +1,63 @@
+姓名：尤姵瑄
+學號：C112181132
 
+=== 我撰寫的 Dockerfile 內容 ===
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
+
+=== docker build 輸出 ===
+
+=> [5/5] COPY . .
+=> exporting to image
+=> => exporting layers
+=> => naming to docker.io/library/ship-api:v1
+=> => unpacking to docker.io/library/ship-api:v1
+
+=== docker images 確認 ===
+
+IMAGE              ID             DISK USAGE   CONTENT SIZE   EXTRA
+ship-api:v1        1af808c43c14        210MB         51.2MB    U
+
+=== API 測試結果 ===
+
+curl http://localhost:8080/ 輸出：
+
+{"message":"高雄港船舶資料 API","total_ships":3,"version":"1.0"}
+
+curl http://localhost:8080/ships 輸出：
+
+[
+ {"id":1,"name":"Ever Given","port":"Kaohsiung","tonnage":220940,"type":"Container"},
+ {"id":2,"name":"Formosa 1","port":"Kaohsiung","tonnage":85000,"type":"Bulk"},
+ {"id":3,"name":"Ocean Star","port":"Taichung","tonnage":95000,"type":"Tanker"}
+]
+
+curl http://localhost:8080/ships/2 輸出：
+
+{"id":2,"name":"Formosa 1","port":"Kaohsiung","tonnage":85000,"type":"Bulk"}
+
+=== 清理 ===
+
+docker stop ship-api
+
+ship-api
+
+docker rm ship-api
+
+ship-api
+
+docker ps -a
+
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
