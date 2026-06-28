@@ -1,1 +1,98 @@
+姓名：
 
+學號：C112181132
+
+=== 我使用的 AI 工具 ===
+
+ChatGPT GPT-5.5
+
+=== 我使用的 Prompt ===
+
+我要建立一個 Docker 容器來執行 Python 3.11 的資料分析腳本。
+
+需要的套件：pandas、numpy、matplotlib、seaborn
+
+程式碼只有一個檔案 analysis.py，啟動指令是 python analysis.py。
+
+資料輸入從 /app/data/ 目錄讀取 CSV 檔，分析結果的圖表存到 /app/output/ 目錄。
+
+請幫我寫一個 Dockerfile，注意：
+
+使用輕量化的 python:3.11-slim 作為基底
+requirements.txt 和程式碼分開複製，善用 build cache
+加上必要的說明（用 # 開頭的註解）
+
+=== AI 產出的 Dockerfile ===
+
+# 使用 Python 3.11 輕量版映像
+FROM python:3.11-slim
+
+# 設定工作目錄
+WORKDIR /app
+
+# 先複製 requirements，利用 Docker Build Cache
+COPY requirements.txt .
+
+# 安裝套件
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 建立資料與輸出資料夾
+RUN mkdir -p /app/data /app/output
+
+# 再複製所有程式
+COPY . .
+
+# 容器啟動時執行分析程式
+CMD ["python", "analysis.py"]
+
+=== 逐行解釋 ===
+
+FROM python:3.11-slim
+→ 使用 Python 3.11 輕量版映像檔作為基礎。
+
+WORKDIR /app
+→ 將容器內的工作目錄設定為 /app。
+
+COPY requirements.txt .
+→ 先複製 requirements.txt 到容器。
+
+RUN pip install --no-cache-dir -r requirements.txt
+→ 安裝 requirements.txt 中列出的 Python 套件。
+
+RUN mkdir -p /app/data /app/output
+→ 建立 data 與 output 資料夾，供程式讀取 CSV 與輸出圖片。
+
+COPY . .
+→ 將目前專案所有檔案複製到容器。
+
+CMD ["python", "analysis.py"]
+→ 容器啟動時自動執行 analysis.py。
+
+=== AI 產出是否有問題？ ===
+
+Q1：AI 有沒有把 requirements.txt 和程式碼分開複製？（有/沒有）
+如果沒有，這樣會有什麼問題？
+
+A1：
+有。這樣可以利用 Docker Build Cache。若 requirements.txt 沒變，重新建置時不用再次安裝所有套件，可節省大量時間。
+
+Q2：AI 產出的 Dockerfile 中，有沒有使用 EXPOSE 指令？
+這個腳本需要 EXPOSE 嗎？為什麼？
+
+A2：
+沒有。這個程式只是執行資料分析，不是 Web Server，也沒有提供網頁服務，因此不需要 EXPOSE 埠號。
+
+Q3：AI 有沒有建立 /app/data/ 和 /app/output/ 目錄？
+如果沒有，容器執行時可能會出現什麼問題？如何解決？
+
+A3：
+有。若沒有建立，程式讀取資料或輸出圖片時可能會出現找不到資料夾（No such file or directory）的錯誤，可利用 RUN mkdir -p /app/data /app/output 建立。
+
+=== 你的修改（如果有的話） ===
+
+我新增了建立 /app/data 與 /app/output 資料夾的指令，使容器執行時能直接存取資料與輸出圖表，避免因資料夾不存在而發生錯誤。
+
+=== 心得 ===
+
+A：
+使用 AI 撰寫 Dockerfile 可以快速完成基本架構，節省查詢指令與撰寫時間，對初學者很有幫助。不過 AI 產生的內容仍需要自己檢查，例如是否有建立必要資料夾、是否有善用 Build Cache、是否符合專案需求。遇到較複雜的專案時，更需要實際測試 Dockerfile 是否能正常建置與執行，而不能直接照抄 AI 的結果。
