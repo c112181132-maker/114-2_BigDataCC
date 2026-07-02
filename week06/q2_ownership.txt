@@ -1,1 +1,121 @@
+姓名：尤姵瑄
+學號：C112181132
 
+=== 任務 1：探索 Linux 目錄結構 ===
+
+ls /
+
+bin
+bin.usr-is-merged
+boot
+dev
+etc
+home
+init
+lib
+lib.usr-is-merged
+lib64
+lost+found
+media
+mnt
+opt
+proc
+root
+run
+sbin
+sbin.usr-is-merged
+snap
+srv
+sys
+tmp
+usr
+var
+
+請從上面的結果中，說明以下 5 個目錄各是做什麼的：
+
+/home：
+存放一般使用者的家目錄。
+
+/etc：
+存放系統設定檔與設定資料。
+
+/var：
+存放經常變動的資料，例如日誌（log）、快取與郵件。
+
+/tmp：
+存放暫存檔案，通常重新開機後可能會被清除。
+
+/usr：
+存放大部分系統程式、指令與共用資源。
+
+=== 任務 2：查看空間與檔案統計 ===
+
+du -sh ~
+
+9.0M    /home/opopu
+
+find ~ -type f | wc -l
+
+109
+
+find ~ -type d | wc -l
+
+61
+
+=== 任務 3：chown 與 chgrp 實作 ===
+
+步驟 1：建立測試檔案並查看預設擁有者
+
+touch ~/week06_test.txt
+echo "Ownership Test" > ~/week06_test.txt
+ls -l ~/week06_test.txt
+
+-rw-r--r-- 1 opopu opopu 15 Jul 2 22:37 /home/opopu/week06_test.txt
+
+步驟 2：建立測試用的使用者和群組
+
+sudo useradd -m tempuser
+
+無輸出（表示成功）
+
+sudo groupadd tempgroup
+
+無輸出（表示成功）
+
+步驟 3：用 chown 改變擁有者
+
+sudo chown tempuser ~/week06_test.txt
+
+ls -l ~/week06_test.txt
+
+-rw-r--r-- 1 tempuser opopu 15 Jul 2 22:37 /home/opopu/week06_test.txt
+
+步驟 4：用 chgrp 改變群組
+
+sudo chgrp tempgroup ~/week06_test.txt
+
+ls -l ~/week06_test.txt
+
+-rw-r--r-- 1 tempuser tempgroup 15 Jul 2 22:37 /home/opopu/week06_test.txt
+
+步驟 5：用 chown 一次改回自己
+
+sudo chown $(whoami):$(whoami) ~/week06_test.txt
+
+ls -l ~/week06_test.txt
+
+-rw-r--r-- 1 opopu opopu 15 Jul 2 22:37 /home/opopu/week06_test.txt
+
+步驟 6：清理
+
+rm ~/week06_test.txt
+
+無輸出（表示成功）
+
+sudo userdel -r tempuser
+
+userdel: tempuser mail spool (/var/mail/tempuser) not found
+
+sudo groupdel tempgroup
+
+無輸出（表示成功）
