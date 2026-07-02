@@ -52,5 +52,5 @@ opopu:x:1000:1000:,,,:/home/opopu:/bin/bash
 mysql:x:105:108:MySQL Server,,,:/nonexistent:/bin/false
 
 wc -l /etc/passwd
-
+ 
 29 /etc/passwd
