@@ -1,1 +1,57 @@
+姓名：尤姵瑄
+學號：C112181132
+
+=== whoami ===
+opopu
+
+=== hostname ===
+op
+
+=== pwd ===
+/mnt/c/Users/opopu
+
+=== uname -a ===
+Linux op 6.18.33.2-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+
+=== date ===
+Thu Jul 2 21:00:04 CST 2026
+
+=== ls / ===
+bin
+bin.usr-is-merged
+boot
+dev
+etc
+home
+init
+lib
+lib.usr-is-merged
+lib64
+lost+found
+media
+mnt
+opt
+proc
+root
+run
+sbin
+sbin.usr-is-merged
+snap
+srv
+sys
+tmp
+usr
+var
+
+=== ls -la ~ ===
+total 28
+drwxr-x--- 3 opopu opopu 4096 Jun 28 19:49 .
+drwxr-xr-x 3 root root 4096 Jun 28 17:32 ..
+-rw------- 1 opopu opopu 156 Jun 28 19:49 .bash_history
+-rw-r--r-- 1 opopu opopu 220 Jun 28 17:32 .bash_logout
+-rw-r--r-- 1 opopu opopu 3771 Jun 28 17:32 .bashrc
+drwx------ 2 opopu opopu 4096 Jun 28 17:33 .cache
+-rw-rw-r-- 1 opopu opopu 0 Jul 2 20:53 .motd_shown
+-rw-r--r-- 1 opopu opopu 807 Jun 28 17:32 .profile
+-rw-r--r-- 1 opopu opopu 0 Jun 28 17:34 .sudo_as_admin_successful
 
