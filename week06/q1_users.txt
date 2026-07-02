@@ -1,1 +1,91 @@
+姓名：尤姵瑄
+學號：C112181132
+
+=== 任務 1：查看自己的身份資訊 ===
+
+whoami
+
+opopu
+
+id
+
+uid=1000(opopu) gid=1000(opopu) groups=1000(opopu),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),100(users)
+
+groups
+
+opopu adm cdrom sudo dip plugdev users
+
+請回答：
+
+UID：1000
+
+屬於的群組：
+opopu、adm、cdrom、sudo、dip、plugdev、users
+
+=== 任務 2：解讀 /etc/passwd ===
+
+cat /etc/passwd | grep opopu
+
+opopu:x:1000:1000:,,,:/home/opopu:/bin/bash
+
+欄位 1（帳號名稱）：
+opopu
+
+欄位 2（密碼欄位）：
+x，表示密碼儲存在 /etc/shadow。
+
+欄位 3（UID）：
+1000，使用者 ID。
+
+欄位 4（GID）：
+1000，主要群組 ID。
+
+欄位 5（描述）：
+使用者資訊（GECOS），目前為 ,,,，表示未填寫描述。
+
+欄位 6（家目錄）：
+/home/opopu
+
+欄位 7（Shell）：
+/bin/bash，表示登入後使用 Bash Shell。
+
+=== 任務 3：建立使用者與群組 ===
+
+步驟 1：建立使用者 week06user（-m 建立家目錄）
+
+sudo useradd -m week06user
+
+無輸出（表示成功）
+
+步驟 2：建立群組 week06group
+
+sudo groupadd week06group
+
+無輸出（表示成功）
+
+步驟 3：將 week06user 加入 week06group
+
+sudo usermod -aG week06group week06user
+
+無輸出（表示成功）
+
+步驟 4：驗證使用者和群組
+
+id week06user
+
+uid=1001(week06user) gid=1001(week06user) groups=1001(week06user),1002(week06group)
+
+cat /etc/group | grep week06group
+
+week06group:x:1002:week06user
+
+步驟 5：清理
+
+sudo userdel -r week06user
+
+userdel: week06user mail spool (/var/mail/week06user) not found
+
+sudo groupdel week06group
+
+無輸出（表示成功）
 
