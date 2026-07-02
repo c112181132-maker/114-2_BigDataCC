@@ -1,1 +1,79 @@
+姓名：尤姵瑄
+學號：C112181132
 
+=== 任務 1：查看 WSL 環境資訊 ===
+
+wsl --list --verbose
+
+  NAME              STATE           VERSION
+* Ubuntu-24.04      Running         2
+  docker-desktop    Running         2
+
+wsl --version
+
+WSL 版本：2.7.10.0
+核心版本：6.18.33.2-2
+WSLg 版本：1.0.73.2
+MSRDC 版本：1.2.6676
+Direct3D 版本：1.611.1-81528511
+DXCore 版本：10.0.26100.1-240331-1435.ge-release
+Windows 版本：10.0.26200.8655
+
+請回答：
+
+WSL 版本：
+2
+
+Linux 發行版：
+Ubuntu-24.04
+
+=== 任務 2：檔案互通 — 從 WSL 存取 Windows ===
+
+步驟 1：
+
+ls /mnt/c/Users/opopu/OneDrive/桌面 | head -10
+
+114-2_BigDataCC-G09
+AutoMonster
+Bluetooth_Intel_21.80.0.3_W10x64_(AX201)
+Discord.lnk
+Docker Desktop.lnk
+Excel.lnk
+GitHub Desktop.lnk
+GitHub.lnk
+LINE.lnk
+Lands of Jail.lnk
+
+步驟 2：
+
+Windows 路徑：
+C:\Users\opopu\OneDrive\桌面
+
+WSL 路徑：
+/mnt/c/Users/opopu/OneDrive/桌面
+
+=== 任務 3：檔案互通 — 從 WSL 建立檔案到 Windows ===
+
+步驟 1：
+
+echo "我的學號是 C112181132，這個檔案從 WSL 建立" > "/mnt/c/Users/opopu/OneDrive/桌面/wsl_hello.txt"
+
+（無輸出，表示成功）
+
+步驟 2：
+
+cat "/mnt/c/Users/opopu/OneDrive/桌面/wsl_hello.txt"
+
+我的學號是 C112181132，這個檔案從 WSL 建立
+
+步驟 3：
+
+explorer.exe ~
+
+成功開啟 Windows 檔案總管，顯示 WSL 的家目錄 `/home/opopu`。
+
+步驟 4：
+
+rm "/mnt/c/Users/opopu/OneDrive/桌面/wsl_hello.txt"
+
+（無輸出，表示成功）
